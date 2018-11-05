@@ -1,0 +1,3 @@
+[
+  {"op": "add", "path": "/spec/externalUrl", "value": "http://prometheus.staging.example.com"}
+]

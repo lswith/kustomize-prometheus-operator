@@ -1,0 +1,26 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: prometheus-operator
+  name: prometheus-operator
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus-operator
+        operator: prometheus
+    spec:
+      containers:
+        - name: prometheus-operator
+          image: "quay.io/coreos/prometheus-operator:v0.24.0"
+          imagePullPolicy: "IfNotPresent"
+          args:
+            - --kubelet-service=kube-system/kubelet
+            - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:v0.24.0
+            - --config-reloader-image=quay.io/coreos/configmap-reload:v0.0.1
+          ports:
+            - containerPort: 8080
+              name: http
+      serviceAccountName: prometheus-operator

@@ -1,0 +1,6 @@
+namespace: monitoring
+
+resources:
+  - rbac.yaml
+  - psp-rbac.yaml
+  - deployment.yaml

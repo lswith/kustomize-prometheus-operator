@@ -1,0 +1,3 @@
+[
+  {"op": "add", "path": "/spec/externalLabels", "value": {"k8s_cluster":"staging"}}
+]

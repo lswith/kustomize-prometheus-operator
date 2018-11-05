@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: exporter-node
+  labels:
+    app: exporter-node
+    component: node-exporter
+spec:
+  type: ClusterIP
+  ports:
+    - name: metrics
+      port: 9100
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    app: exporter-node

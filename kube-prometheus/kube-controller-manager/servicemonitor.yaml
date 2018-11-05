@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: exporter-kube-controller-manager
+    prometheus: "cluster"
+    component: kube-controller-manager
+  name: exporter-kube-controller-manager
+spec:
+  jobLabel: component
+  selector:
+    matchLabels:
+      app: exporter-kube-controller-manager
+      component: kube-controller-manager
+  namespaceSelector:
+    matchNames:
+      - "kube-system"
+  endpoints:
+    - port: http-metrics
+      interval: 15s
+      tlsConfig:
+        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        # Skip verification until we have resolved why the certificate validation
+        # for the kubelet on API server nodes fail.
+        insecureSkipVerify: true
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token

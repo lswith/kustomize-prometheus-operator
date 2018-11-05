@@ -1,0 +1,24 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: exporter-kube-dns
+    component: kube-dns
+    prometheus: cluster
+  name: exporter-kube-dns
+spec:
+  jobLabel: component
+  selector:
+    matchLabels:
+      app: exporter-kube-dns
+      component: kube-dns
+  namespaceSelector:
+    matchNames:
+      - "kube-system"
+  endpoints:
+    - port: http-metrics-dnsmasq
+      interval: 15s
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    - port: http-metrics-skydns
+      interval: 15s
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token

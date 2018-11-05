@@ -1,0 +1,19 @@
+# Source: kube-prometheus/charts/prometheus/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: prometheus
+    prometheus: "cluster"
+  name: prometheus
+spec:
+  sessionAffinity: "None"
+  ports:
+    - name: http
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  selector:
+    app: prometheus
+    prometheus: prometheus
+  type: "ClusterIP"

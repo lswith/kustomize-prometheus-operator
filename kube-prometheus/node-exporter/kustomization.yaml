@@ -1,0 +1,11 @@
+resources:
+  - daemonset.yaml
+  - psp-clusterrole.yaml
+  - psp-clusterrolebinding.yaml
+  - psp.yaml
+  - rules.yaml
+  - service.yaml
+  - serviceaccount.yaml
+  - servicemonitor.yaml
+
+namespace: monitoring

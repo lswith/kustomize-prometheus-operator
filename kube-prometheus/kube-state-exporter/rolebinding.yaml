@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app: exporter-kube-state
+  name: exporter-kube-state
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: exporter-kube-state
+subjects:
+  - kind: ServiceAccount
+    name: exporter-kube-state

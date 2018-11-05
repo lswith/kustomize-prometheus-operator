@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: exporter-kube-controller-manager
+    component: kube-controller-manager
+  name: exporter-kube-controller-manager
+  namespace: kube-system
+spec:
+  clusterIP: None
+  ports:
+    - name: http-metrics
+      port: 10252
+      protocol: TCP
+      targetPort: 10252
+  selector:
+    k8s-app: kube-controller-manager
+  type: ClusterIP

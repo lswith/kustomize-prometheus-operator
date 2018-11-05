@@ -1,0 +1,15 @@
+resources:
+  - clusterrole.yaml
+  - clusterrolebinding.yaml
+  - deployment.yaml
+  - psp-clusterrole.yaml
+  - psp-clusterrolebinding.yaml
+  - psp.yaml
+  - role.yaml
+  - rolebinding.yaml
+  - rules.yaml
+  - service.yaml
+  - serviceaccount.yaml
+  - servicemonitor.yaml
+
+namespace: kube-system

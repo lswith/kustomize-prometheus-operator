@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: exporter-kube-state
+  labels:
+    app: exporter-kube-state
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: exporter-kube-state
+  template:
+    metadata:
+      labels:
+        app: exporter-kube-state
+    spec:
+      containers:
+        - name: exporter-kube-state
+          image: "gcr.io/google_containers/kube-state-metrics:v1.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+        - name: exporter-kube-state-addon-resizer
+          image: "gcr.io/google_containers/addon-resizer:1.7"
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MY_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          command:
+            - /pod_nanny
+            - --container=exporter-kube-state
+            - --cpu=100m
+            - --extra-cpu=1m
+            - --memory=130Mi
+            - --extra-memory=2Mi
+            - --threshold=5
+            - --deployment=exporter-kube-state
+          resources:
+            limits:
+              cpu: 100m
+              memory: 30Mi
+            requests:
+              cpu: 100m
+              memory: 30Mi
+      serviceAccountName: exporter-kube-state

@@ -1,0 +1,24 @@
+bases:
+  - ../../base/
+
+resources:
+  - ingress.yaml
+
+patchesJson6902:
+  - target:
+      group: monitoring.coreos.com
+      version: v1
+      kind: Prometheus
+      name: prometheus
+    path: external_url.json
+  - target:
+      group: monitoring.coreos.com
+      version: v1
+      kind: Prometheus
+      name: prometheus
+    path: external_labels.json
+
+generatorOptions:
+  disableHash: true
+
+namespace: monitoring

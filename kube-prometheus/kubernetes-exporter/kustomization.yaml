@@ -1,0 +1,5 @@
+resources:
+  - servicemonitor.yaml
+  - rules.yaml
+
+namespace: default

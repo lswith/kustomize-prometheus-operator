@@ -1,0 +1,53 @@
+# Source: kube-prometheus/charts/exporter-node/templates/daemonset.yaml
+
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  labels:
+    app: exporter-node
+  name: exporter-node
+spec:
+  template:
+    metadata:
+      labels:
+        app: exporter-node
+    spec:
+      containers:
+        - name: node-exporter
+          image: "quay.io/prometheus/node-exporter:v0.15.2"
+          imagePullPolicy: "IfNotPresent"
+          args:
+            - --web.listen-address=0.0.0.0:9100
+            - --path.procfs=/host/proc
+            - --path.sysfs=/host/sys
+          ports:
+            - name: metrics
+              containerPort: 9100
+              hostPort: 9100
+          resources:
+            limits:
+              cpu: 200m
+              memory: 50Mi
+            requests:
+              cpu: 100m
+              memory: 30Mi
+          volumeMounts:
+            - mountPath: /host/proc
+              name: proc
+              readOnly: true
+            - mountPath: /host/sys
+              name: sys
+              readOnly: true
+      serviceAccountName: exporter-node
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+      hostNetwork: true
+      hostPID: true
+      volumes:
+        - hostPath:
+            path: /proc
+          name: proc
+        - hostPath:
+            path: /sys
+          name: sys

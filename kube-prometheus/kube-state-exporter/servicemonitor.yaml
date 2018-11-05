@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: exporter-kube-state
+    prometheus: cluster
+    component: kube-state
+  name: exporter-kube-state
+spec:
+  jobLabel: component
+  selector:
+    matchLabels:
+      app: exporter-kube-state
+      component: kube-state
+  namespaceSelector:
+    matchNames:
+      - "kube-system"
+  endpoints:
+    - port: kube-state-metrics
+      interval: 15s
+      honorLabels: true

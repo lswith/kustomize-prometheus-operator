@@ -1,0 +1,17 @@
+resources:
+  - clusterrole.yaml
+  - clusterrolebinding.yaml
+  - general-rules.yaml
+  - prometheus.yaml
+  - psp-clusterrole.yaml
+  - psp-clusterrolebinding.yaml
+  - psp.yaml
+  - rules.yaml
+  - service.yaml
+  - serviceaccount.yaml
+  - servicemonitor.yaml
+
+generatorOptions:
+  disableHash: true
+
+namespace: monitoring
