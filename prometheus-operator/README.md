@@ -1,3 +1,3 @@
-This content has moved to:
+***DEPRECATED***:
 
 [../README.md](../README.md)
